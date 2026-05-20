@@ -1,0 +1,43 @@
+---
+import ProductCard from './ProductCard.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  products: CollectionEntry<'products'>[];
+}
+
+const { products } = Astro.props;
+---
+
+<section class="max-w-7xl mx-auto px-6 py-14">
+
+  <!-- Grid de productos -->
+  <div
+    id="products-container"
+    class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-14"
+    aria-label="Catálogo de productos"
+  >
+    {products.map((p) => (
+      <ProductCard
+        slug={p.id}
+        title={p.data.title}
+        price={p.data.price}
+        category={p.data.category}
+        image={p.data.image}
+        inStock={p.data.inStock}
+      />
+    ))}
+  </div>
+
+  <!-- Estado vacío -->
+  <div id="empty-state" class="hidden text-center py-28 col-span-full" aria-live="polite">
+    <div class="flex items-center justify-center gap-3 mb-6" aria-hidden="true">
+      <div class="h-px w-12 bg-ivory-400"></div>
+      <div class="w-1.5 h-1.5 rounded-full bg-ivory-400"></div>
+      <div class="h-px w-12 bg-ivory-400"></div>
+    </div>
+    <p class="font-serif text-2xl font-light text-stone-400 mb-2">Sin resultados</p>
+    <p class="text-stone-400 text-xs tracking-widest uppercase font-sans">Prueba con otros filtros</p>
+  </div>
+
+</section>

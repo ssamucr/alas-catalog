@@ -1,0 +1,64 @@
+---
+interface Props {
+  slug: string;
+  title: string;
+  price: number;
+  category: string;
+  image: string;
+  inStock: boolean;
+}
+
+const { slug, title, price, category, image, inStock } = Astro.props;
+
+const formattedPrice = new Intl.NumberFormat('es-US', {
+  style: 'currency',
+  currency: 'USD',
+  maximumFractionDigits: 2,
+}).format(price);
+---
+
+<article
+  class="product-card group animate-fade-up"
+  data-category={category}
+  data-price={String(price)}
+  data-name={title.toLowerCase()}
+  data-instock={String(inStock)}
+>
+  <a href={`/productos/${slug}`} class="block" tabindex="0">
+
+    <!-- Imagen -->
+    <div class="relative aspect-3/4 overflow-hidden bg-ivory-200 mb-4">
+      <img
+        src={image}
+        alt={title}
+        loading="lazy"
+        decoding="async"
+        width="400"
+        height="533"
+        class="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-[1.04]"
+      />
+
+      <!-- Badge agotado -->
+      {!inStock && (
+        <div class="absolute top-3 left-3" aria-label="Producto agotado">
+          <span class="bg-stone-900/90 text-white text-[9px] tracking-[0.2em] uppercase px-2.5 py-1 backdrop-blur-sm">
+            Agotado
+          </span>
+        </div>
+      )}
+
+      <!-- Hover overlay sutil -->
+      <div class="absolute inset-0 bg-stone-900/0 group-hover:bg-stone-900/5 transition-colors duration-500" aria-hidden="true"></div>
+    </div>
+
+    <!-- Info -->
+    <div class="space-y-1 px-0.5">
+      <p class="text-[9px] tracking-[0.28em] uppercase text-stone-400 font-sans">{category}</p>
+      <h3 class="font-serif text-lg font-light text-stone-800 group-hover:text-stone-600 transition-colors duration-200 leading-snug">
+        {title}
+      </h3>
+      <p class="text-stone-500 text-sm font-sans font-light">{formattedPrice}</p>
+    </div>
+
+  </a>
+</article>

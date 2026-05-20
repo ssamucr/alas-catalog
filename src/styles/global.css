@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+@theme {
+  /* ── Brand · Rosa Blush ── */
+  --color-blush-50:  #FDF0F9;
+  --color-blush-100: #F8E4F0;
+  --color-blush-200: #EEC8DC;
+  --color-blush-300: #E0A0C4;
+  --color-blush-400: #CC78A8;
+
+  /* ── Oro sutil ── */
+  --color-gold-100: #F5ECDA;
+  --color-gold-200: #EEE0BE;
+  --color-gold-300: #E0C88A;
+  --color-gold-400: #D4B87A;
+  --color-gold-500: #C9A96E;
+  --color-gold-600: #B8965A;
+  --color-gold-700: #9A7B44;
+
+  /* ── Ivory · Crema cálida ── */
+  --color-ivory-50:  #FDFBF8;
+  --color-ivory-100: #FDF8F4;
+  --color-ivory-200: #F5EDE6;
+  --color-ivory-300: #EDE3DB;
+  --color-ivory-400: #DFD4C9;
+
+  /* ── Tipografía ── */
+  --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-sans:  "DM Sans", system-ui, -apple-system, sans-serif;
+}
+
+/* ── Estilos base ── */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+::selection {
+  background-color: #F8E4F0;
+  color: #2c2a28;
+}
+
+:focus-visible {
+  outline: 1.5px solid #C9A96E;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── Scrollbar oculta (listas horizontales en mobile) ── */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ── Animaciones ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.97); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-up  { animation: fadeUp  0.5s cubic-bezier(0.25, 0.1, 0.25, 1) both; }
+.animate-fade-in  { animation: fadeIn  0.3s ease both; }
+.animate-scale-in { animation: scaleIn 0.25s cubic-bezier(0.25, 0.1, 0.25, 1) both; }
+
+/* ── Stagger delays para cards ── */
+.product-card:nth-child(1) { animation-delay: 0ms; }
+.product-card:nth-child(2) { animation-delay: 60ms; }
+.product-card:nth-child(3) { animation-delay: 120ms; }
+.product-card:nth-child(4) { animation-delay: 180ms; }
+.product-card:nth-child(5) { animation-delay: 240ms; }
+.product-card:nth-child(6) { animation-delay: 300ms; }
+.product-card:nth-child(7) { animation-delay: 360ms; }
+.product-card:nth-child(8) { animation-delay: 420ms; }
+
+/* ── Prose para páginas de producto ── */
+.product-prose p {
+  color: rgb(87 83 78);
+  line-height: 1.85;
+  margin-bottom: 1rem;
+  font-size: 0.9375rem;
+}
+.product-prose strong {
+  color: rgb(44 42 40);
+  font-weight: 500;
+}
+.product-prose h2 {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: rgb(44 42 40);
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}

@@ -1,0 +1,206 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import SearchModal from '../../components/SearchModal.astro';
+import Footer from '../../components/Footer.astro';
+
+export async function getStaticPaths() {
+  const products = await getCollection('products');
+  return products.map((product) => ({
+    params: { slug: product.id },
+    props:  { product },
+  }));
+}
+
+interface Props {
+  product: CollectionEntry<'products'>;
+}
+
+const { product } = Astro.props;
+const { Content }  = await render(product);
+const { data }     = product;
+
+// Datos para la búsqueda (disponibles en el SearchModal)
+const allProducts  = await getCollection('products');
+const searchProducts = allProducts.map((p) => ({
+  slug: p.id,
+  title: p.data.title,
+  description: p.data.description,
+  category: p.data.category,
+  price: p.data.price,
+  image: p.data.image,
+  inStock: p.data.inStock,
+}));
+
+const formattedPrice = new Intl.NumberFormat('es-US', {
+  style: 'currency',
+  currency: 'USD',
+  maximumFractionDigits: 2,
+}).format(data.price);
+
+// Mensaje de WhatsApp precompuesto (actualizar el número)
+const WHATSAPP_NUMBER = '50761305645';
+const waMessage = encodeURIComponent(
+  `Hola! Me interesa el producto *${data.title}* (${formattedPrice}). ¿Está disponible?`
+);
+const waHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${waMessage}`;
+---
+
+<Layout
+  title={`${data.title} — Alasfinejewelryy`}
+  description={data.description}
+  image={data.image}
+>
+  <Navbar />
+
+  <main class="pt-24 pb-0">
+
+    <!-- Breadcrumb -->
+    <nav class="max-w-7xl mx-auto px-6 pt-8 pb-0" aria-label="Ruta de navegación">
+      <ol class="flex items-center gap-2 text-[9px] tracking-[0.2em] uppercase text-stone-400 font-sans">
+        <li><a href="/" class="hover:text-stone-700 transition-colors">Volver a la colección</a></li>
+        <li aria-hidden="true" class="text-stone-300">·</li>
+        <li class="text-stone-500 truncate max-w-50">{data.title}</li>
+      </ol>
+    </nav>
+
+    <!-- Contenido principal -->
+    <div class="max-w-7xl mx-auto px-6 py-10">
+      <div class="grid md:grid-cols-2 gap-10 lg:gap-20 items-start">
+
+        <!-- ── Imagen ── -->
+        <div class="animate-fade-up">
+          <div class="aspect-3/4 overflow-hidden bg-ivory-200">
+            <img
+              src={data.image}
+              alt={data.title}
+              width="800"
+              height="1067"
+              class="w-full h-full object-cover"
+              decoding="async"
+            />
+          </div>
+          <!-- Galería adicional (si existe) -->
+          {data.gallery && data.gallery.length > 0 && (
+            <div class="grid grid-cols-3 gap-2 mt-2">
+              {data.gallery.map((img) => (
+                <div class="aspect-square overflow-hidden bg-ivory-200">
+                  <img src={img} alt={data.title} loading="lazy" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 cursor-pointer" />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <!-- ── Detalles ── -->
+        <div class="animate-fade-up md:pt-4" style="animation-delay:100ms">
+
+          <!-- Categoría -->
+          <p class="text-[9px] tracking-[0.3em] uppercase text-stone-400 font-sans mb-4">
+            {data.category}
+          </p>
+
+          <!-- Título -->
+          <h1 class="font-serif text-4xl lg:text-5xl font-light text-stone-900 leading-tight mb-4">
+            {data.title}
+          </h1>
+
+          <!-- Precio -->
+          <p class="text-2xl text-stone-600 font-sans font-light mb-1">
+            {formattedPrice}
+          </p>
+
+          <!-- Disponibilidad -->
+          <p class:list={[
+            'text-xs tracking-widest uppercase font-sans mb-7',
+            data.inStock ? 'text-stone-400' : 'text-blush-400',
+          ]}>
+            {data.inStock ? '— Disponible' : '— Agotado'}
+          </p>
+
+          <!-- Línea decorativa -->
+          <div class="flex items-center gap-3 mb-7" aria-hidden="true">
+            <div class="h-px w-10 bg-gold-400"></div>
+            <div class="w-1 h-1 rounded-full bg-gold-400 shrink-0"></div>
+          </div>
+
+          <!-- Descripción -->
+          <p class="text-stone-600 text-sm leading-[1.85] font-light font-sans mb-8 max-w-sm">
+            {data.description}
+          </p>
+
+          <!-- Detalles de la pieza -->
+          <div class="grid grid-cols-2 gap-x-8 gap-y-5 mb-9">
+            {data.material && (
+              <div>
+                <p class="text-[8px] tracking-[0.3em] uppercase text-stone-400 mb-1">Material</p>
+                <p class="text-sm text-stone-700 font-light">{data.material}</p>
+              </div>
+            )}
+            {data.color && (
+              <div>
+                <p class="text-[8px] tracking-[0.3em] uppercase text-stone-400 mb-1">Color</p>
+                <p class="text-sm text-stone-700 font-light">{data.color}</p>
+              </div>
+            )}
+            <div>
+              <p class="text-[8px] tracking-[0.3em] uppercase text-stone-400 mb-1">Categoría</p>
+              <p class="text-sm text-stone-700 font-light">{data.category}</p>
+            </div>
+            <div>
+              <p class="text-[8px] tracking-[0.3em] uppercase text-stone-400 mb-1">Disponibilidad</p>
+              <p class:list={['text-sm font-light', data.inStock ? 'text-stone-700' : 'text-stone-400']}>
+                {data.inStock ? 'En stock' : 'Agotado'}
+              </p>
+            </div>
+          </div>
+
+          <!-- CTA WhatsApp -->
+          {data.inStock ? (
+            <a
+              href={waHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-3 w-full justify-center border border-stone-900 bg-stone-900 text-white text-[10px] tracking-[0.25em] uppercase px-8 py-4 hover:bg-stone-800 transition-colors duration-200 font-sans mb-3"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.464 3.488"/>
+              </svg>
+              Consultar por WhatsApp
+            </a>
+          ) : (
+            <div class="w-full border border-ivory-400 text-stone-400 text-[10px] tracking-[0.25em] uppercase px-8 py-4 text-center font-sans">
+              Producto agotado — Consultar disponibilidad
+            </div>
+          )}
+
+          <a
+            href="/"
+            class="inline-flex items-center gap-2 text-[10px] tracking-[0.2em] uppercase text-stone-400 hover:text-stone-700 transition-colors duration-200 font-sans w-full justify-center py-2"
+          >
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M19 12H5M12 5l-7 7 7 7"/>
+            </svg>
+            Volver a la colección
+          </a>
+
+        </div>
+      </div>
+
+      <!-- Contenido Markdown -->
+      <div class="mt-16 pt-12 border-t border-ivory-300 max-w-xl mx-auto md:mx-0 product-prose">
+        <Content />
+      </div>
+
+    </div>
+  </main>
+
+  <Footer />
+  <SearchModal />
+
+  <!-- Datos para el buscador -->
+  <script is:inline define:vars={{ searchProducts }}>
+    window.__ALAS_PRODUCTS__ = searchProducts;
+  </script>
+</Layout>

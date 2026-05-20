@@ -1,11 +1,140 @@
 ---
-import Welcome from '../components/Welcome.astro';
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Hero from '../components/Hero.astro';
+import FilterBar from '../components/FilterBar.astro';
+import ProductGrid from '../components/ProductGrid.astro';
+import SearchModal from '../components/SearchModal.astro';
+import Footer from '../components/Footer.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// Obtener y ordenar todos los productos
+const allProducts = (await getCollection('products')).sort(
+  (a, b) => (a.data.order ?? 0) - (b.data.order ?? 0)
+);
+
+// Categorías únicas para el filter bar
+const categories = [...new Set(allProducts.map((p) => p.data.category))];
+
+// Datos serializados para el buscador Fuse.js
+const searchProducts = allProducts.map((p) => ({
+  slug: p.id,
+  title: p.data.title,
+  description: p.data.description,
+  category: p.data.category,
+  price: p.data.price,
+  image: p.data.image,
+  inStock: p.data.inStock,
+}));
 ---
 
-<Layout>
-	<Welcome />
+<Layout
+  title="Alas — Joyería Fina"
+  description="Descubre la colección de joyería fina de Alas. Piezas únicas en baño de oro y plata con una estética premium y minimalista, a la misma vez que duradera."
+>
+  <Navbar />
+
+  <main id="main-content">
+    <Hero />
+
+    <FilterBar categories={categories} />
+
+    <ProductGrid products={allProducts} />
+
+    <!-- Contador de resultados (accesibilidad) -->
+    <div id="results-count" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+  </main>
+
+  <Footer />
+
+  <SearchModal />
+
+  <!-- Inyectar datos para Fuse.js -->
+  <script is:inline define:vars={{ searchProducts }}>
+    window.__ALAS_PRODUCTS__ = searchProducts;
+  </script>
+
+  <!-- Sistema de filtros + ordenamiento -->
+  <script>
+    type SortOrder = '' | 'price-asc' | 'price-desc' | 'az' | 'za';
+
+    let activeCategory: string = 'all';
+    let sortOrder: SortOrder   = '';
+    let showInStockOnly        = false;
+
+    const grid       = document.getElementById('products-container') as HTMLElement;
+    const emptyState = document.getElementById('empty-state') as HTMLElement;
+    const counter    = document.getElementById('results-count') as HTMLElement;
+
+    function getCards(): HTMLElement[] {
+      return Array.from(grid.querySelectorAll<HTMLElement>('.product-card'));
+    }
+
+    function updateView() {
+      const allCards = getCards();
+
+      // 1 — Ordenar todos los cards
+      const sorted = [...allCards];
+      if (sortOrder) {
+        sorted.sort((a, b) => {
+          switch (sortOrder) {
+            case 'price-asc':  return Number(a.dataset.price) - Number(b.dataset.price);
+            case 'price-desc': return Number(b.dataset.price) - Number(a.dataset.price);
+            case 'az':         return (a.dataset.name ?? '').localeCompare(b.dataset.name ?? '', 'es');
+            case 'za':         return (b.dataset.name ?? '').localeCompare(a.dataset.name ?? '', 'es');
+            default:           return 0;
+          }
+        });
+        sorted.forEach((card) => grid.appendChild(card));
+      }
+
+      // 2 — Aplicar visibilidad
+      let visibleCount = 0;
+      getCards().forEach((card) => {
+        const matchCat   = activeCategory === 'all' || card.dataset.category === activeCategory;
+        const matchStock = !showInStockOnly || card.dataset.instock === 'true';
+        const visible    = matchCat && matchStock;
+
+        card.style.display = visible ? '' : 'none';
+        if (visible) visibleCount++;
+      });
+
+      // 3 — Estado vacío + contador
+      emptyState.classList.toggle('hidden', visibleCount > 0);
+      counter.textContent = visibleCount > 0
+        ? `${visibleCount} producto${visibleCount !== 1 ? 's' : ''} encontrado${visibleCount !== 1 ? 's' : ''}`
+        : 'Sin resultados para los filtros seleccionados';
+    }
+
+    // ── Botones de categoría ──────────────────────────────
+    document.querySelectorAll<HTMLButtonElement>('.filter-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        activeCategory = btn.dataset.category ?? 'all';
+
+        document.querySelectorAll<HTMLButtonElement>('.filter-btn').forEach((b) => {
+          const isActive = b.dataset.category === activeCategory;
+          b.classList.toggle('border-stone-900',  isActive);
+          b.classList.toggle('bg-stone-900',       isActive);
+          b.classList.toggle('text-white',         isActive);
+          b.classList.toggle('border-ivory-400',  !isActive);
+          b.classList.toggle('text-stone-500',    !isActive);
+          b.setAttribute('aria-pressed', String(isActive));
+        });
+
+        updateView();
+      });
+    });
+
+    // ── Select de ordenamiento ────────────────────────────
+    document.getElementById('sort-select')?.addEventListener('change', (e) => {
+      sortOrder = (e.target as HTMLSelectElement).value as SortOrder;
+      updateView();
+    });
+
+    // ── Toggle de stock ───────────────────────────────────
+    document.getElementById('instock-toggle')?.addEventListener('change', (e) => {
+      showInStockOnly = (e.target as HTMLInputElement).checked;
+      updateView();
+    });
+  </script>
 </Layout>
