@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://alas-joyeria.com',
+  site: 'https://alas-catalogo.samu0x.dev/',
   vite: {
     plugins: [tailwindcss()],
   },
