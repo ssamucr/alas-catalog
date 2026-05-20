@@ -79,8 +79,10 @@ def build_md_content(row: pd.Series) -> str:
 # ---------------------------------------------------------------------------
 
 def main() -> None:
-    script_dir = Path(__file__).parent.resolve()
-    excel_path = script_dir / "products.xlsx"
+    project_root = Path(__file__).parent.parent.resolve()
+    excel_path = project_root / "data" / "products.xlsx"
+    output_dir = project_root / "src" / "content" / "products"
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     if not excel_path.exists():
         raise FileNotFoundError(f"No se encontró el archivo: {excel_path}")
@@ -117,7 +119,7 @@ def main() -> None:
             skipped += 1
             continue
 
-        filename = script_dir / f"{slug}.md"
+        filename = output_dir / f"{slug}.md"
         content = build_md_content(row)
 
         filename.write_text(content, encoding="utf-8")
