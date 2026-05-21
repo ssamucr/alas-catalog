@@ -11,7 +11,7 @@ const products = defineCollection({
     /** Precio en pesos / moneda local */
     price: z.number(),
     /** Categoría del producto */
-    category: z.enum(['Anillos', 'Collares', 'Aretes', 'Pulseras', 'Piercings']),
+    category: z.enum(['Anillos', 'Collares', 'Aretes', 'Pulseras', 'Piercings', 'Brazaletes', 'Relojes']),
     /** URL o path de la imagen principal */
     image: z.string(),
     /** Imágenes adicionales para galería */
