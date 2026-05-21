@@ -5,6 +5,7 @@ Reads products.xlsx and generates one .md file per row in the "products" sheet.
 
 import re
 import unicodedata
+from collections import Counter
 from pathlib import Path
 
 import pandas as pd
@@ -45,7 +46,7 @@ def str_value(value) -> str:
     return str(value).strip()
 
 
-def build_frontmatter(row: pd.Series) -> str:
+def build_frontmatter(row: pd.Series, slug: str) -> str:
     """Build the YAML frontmatter block from a DataFrame row."""
     lines = [
         "---",
@@ -53,7 +54,7 @@ def build_frontmatter(row: pd.Series) -> str:
         f'description: "{str_value(row["description"])}"',
         f'price: {str_value(row["price"])}',
         f'category: "{str_value(row["category"])}"',
-        f'image: "{str_value(row["image"])}"',
+        f'image: "/products/{slug}.webp"',
         f'inStock: {bool_value(row["inStock"])}',
         f'material: "{str_value(row["material"])}"',
         f'color: "{str_value(row["color"])}"',
@@ -64,9 +65,9 @@ def build_frontmatter(row: pd.Series) -> str:
     return "\n".join(lines)
 
 
-def build_md_content(row: pd.Series) -> str:
+def build_md_content(row: pd.Series, slug: str) -> str:
     """Combine frontmatter + body into a complete Markdown document."""
-    frontmatter = build_frontmatter(row)
+    frontmatter = build_frontmatter(row, slug)
     body = "" if pd.isna(row["body"]) else str(row["body"])
     # Interpret literal \n sequences as real newlines (preserve * as-is)
     body = body.replace("\\n", "\n")
@@ -96,12 +97,22 @@ def main() -> None:
             raise ValueError(f"Columna requerida no encontrada en el Excel: '{bool_col}'")
 
     required_columns = {
-        "title", "description", "price", "category", "image",
+        "title", "description", "price", "category",
         "inStock", "material", "color", "featured", "order", "body",
     }
     missing = required_columns - set(df.columns)
     if missing:
         raise ValueError(f"Columnas faltantes en la hoja 'products': {missing}")
+
+    # Primera pasada: detectar slugs base duplicados
+    base_slugs: list[str | None] = []
+    for idx, row in df.iterrows():
+        title = str_value(row["title"])
+        slug = slugify(title) if title else None
+        base_slugs.append(slug)
+
+    slug_counts = Counter(s for s in base_slugs if s)
+    duplicate_slugs = {s for s, count in slug_counts.items() if count > 1}
 
     created = 0
     skipped = 0
@@ -119,8 +130,13 @@ def main() -> None:
             skipped += 1
             continue
 
+        if slug in duplicate_slugs:
+            color_slug = slugify(str_value(row["color"]))
+            if color_slug:
+                slug = f"{slug}-{color_slug}"
+
         filename = output_dir / f"{slug}.md"
-        content = build_md_content(row)
+        content = build_md_content(row, slug)
 
         filename.write_text(content, encoding="utf-8")
         print(f"  [OK]   {filename.name}")
