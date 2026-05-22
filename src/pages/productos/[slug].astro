@@ -52,14 +52,14 @@ const waHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${waMessage}`;
   description={data.description}
   image={data.image}
 >
-  <Navbar />
+  <Navbar transition:persist="navbar" />
 
   <main class="pt-24 pb-0">
 
     <!-- Breadcrumb -->
     <nav class="max-w-7xl mx-auto px-6 pt-8 pb-0" aria-label="Ruta de navegación">
       <ol class="flex items-center gap-2 text-[9px] tracking-[0.2em] uppercase text-stone-400 font-sans">
-        <li><a href="/" class="hover:text-stone-700 transition-colors">Volver a la colección</a></li>
+        <li><a href="/" data-astro-prefetch class="hover:text-stone-700 transition-colors">Volver a la colección</a></li>
         <li aria-hidden="true" class="text-stone-300">·</li>
         <li class="text-stone-500 truncate max-w-50">{data.title}</li>
       </ol>
@@ -70,7 +70,7 @@ const waHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${waMessage}`;
       <div class="grid md:grid-cols-2 gap-10 lg:gap-20 items-start">
 
         <!-- ── Imagen ── -->
-        <div class="animate-fade-up">
+        <div>
           <div class="aspect-3/4 overflow-hidden bg-ivory-200">
             <img
               src={data.image}
@@ -180,6 +180,7 @@ const waHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${waMessage}`;
 
           <a
             href="/"
+            data-astro-prefetch
             class="inline-flex items-center gap-2 text-[10px] tracking-[0.2em] uppercase text-stone-400 hover:text-stone-700 transition-colors duration-200 font-sans w-full justify-center py-2"
           >
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
@@ -200,7 +201,7 @@ const waHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${waMessage}`;
   </main>
 
   <Footer />
-  <SearchModal />
+  <SearchModal transition:persist="search-modal" />
 
   <!-- Datos para el buscador -->
   <script is:inline define:vars={{ searchProducts }}>

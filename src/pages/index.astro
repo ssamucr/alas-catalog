@@ -32,7 +32,7 @@ const searchProducts = allProducts.map((p) => ({
   title="Alas — Joyería Fina"
   description="Descubre la colección de joyería fina de Alas. Piezas únicas en baño de oro y plata con una estética premium y minimalista, a la misma vez que duradera."
 >
-  <Navbar />
+  <Navbar transition:persist="navbar" />
 
   <main id="main-content">
     <Hero />
@@ -47,7 +47,7 @@ const searchProducts = allProducts.map((p) => ({
 
   <Footer />
 
-  <SearchModal />
+  <SearchModal transition:persist="search-modal" />
 
   <!-- Inyectar datos para Fuse.js -->
   <script is:inline define:vars={{ searchProducts }}>

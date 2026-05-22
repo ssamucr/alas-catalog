@@ -24,7 +24,7 @@ const formattedPrice = new Intl.NumberFormat('es-US', {
   data-name={title.toLowerCase()}
   data-instock={String(inStock)}
 >
-  <a href={`/productos/${slug}`} class="block" tabindex="0">
+  <a href={`/productos/${slug}`} data-astro-prefetch class="block" tabindex="0">
 
     <!-- Imagen -->
     <div class="relative aspect-3/4 overflow-hidden bg-ivory-200 mb-4">
