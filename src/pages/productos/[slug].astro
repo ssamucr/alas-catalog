@@ -78,7 +78,10 @@ const waHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${waMessage}`;
               width="800"
               height="1067"
               class="w-full h-full object-cover"
+              loading="eager"
               decoding="async"
+              fetchpriority="high"
+              transition:name={product.id}
             />
           </div>
           <!-- Galería adicional (si existe) -->
