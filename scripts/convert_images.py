@@ -4,7 +4,7 @@ Converts JPEG/PNG images from /raw_images to optimized WebP
 and places them in /public/products/.
 
 Usage:
-    python scripts/convert_images.py [--quality 85]
+    python scripts/convert_images.py [--quality 75]
 """
 
 import argparse
@@ -18,7 +18,7 @@ except ImportError:
 
 
 SUPPORTED_EXTENSIONS = {".jpg", ".jpeg", ".png"}
-DEFAULT_QUALITY = 85  # 80-85 es un buen balance calidad/tamaño para WebP
+DEFAULT_QUALITY = 75 # 80-85 es un buen balance calidad/tamaño para WebP
 
 
 def convert_image(src: Path, dest: Path, quality: int) -> None:
