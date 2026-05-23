@@ -3,7 +3,7 @@ title: "Anillo Pinky Promise"
 description: "Anillo de promesa plateado con piedra rectangular elegante."
 price: 19.99
 category: "Anillos"
-image: "/products/anillo-pinky-promise.webp"
+image: "../../assets/images/anillo-pinky-promise.webp"
 inStock: true
 material: "Plata 925, Zirconia"
 color: "Plata"

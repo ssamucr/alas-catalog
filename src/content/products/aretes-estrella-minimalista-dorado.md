@@ -3,7 +3,7 @@ title: "Aretes Estrella Minimalista"
 description: "Aretes de estrellas en degradé dorado."
 price: 9.99
 category: "Aretes"
-image: "/products/aretes-estrella-minimalista-dorado.webp"
+image: "../../assets/images/aretes-estrella-minimalista-dorado.webp"
 inStock: true
 material: "PVD Baño de Oro 18K, Acero inoxidable 304"
 color: "Dorado"

@@ -1,10 +1,13 @@
 ---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
 interface Props {
   slug: string;
   title: string;
   price: number;
   category: string;
-  image: string;
+  image: ImageMetadata;
   inStock: boolean;
 }
 
@@ -28,13 +31,14 @@ const formattedPrice = new Intl.NumberFormat('es-US', {
 
     <!-- Imagen -->
     <div class="relative aspect-3/4 overflow-hidden bg-ivory-200 mb-4">
-      <img
+      <Image
         src={image}
         alt={title}
+        width={400}
+        height={533}
+        quality={80}
         loading="lazy"
         decoding="async"
-        width="400"
-        height="533"
         transition:name={slug}
         class="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-[1.04]"
       />

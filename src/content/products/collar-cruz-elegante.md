@@ -3,7 +3,7 @@ title: "Collar Cruz Elegante"
 description: "Collar dorado con cruz y zirconias."
 price: 13.99
 category: "Collares"
-image: "/products/collar-cruz-elegante.webp"
+image: "../../assets/images/collar-cruz-elegante.webp"
 inStock: true
 material: "PVD Baño de Oro 18K, Zirconia, Acero inoxidable 304"
 color: "Dorado"

@@ -3,7 +3,7 @@ title: "Pulsera Estrella Geométrica"
 description: "Pulsera doble cadena plateada con estrella de zirconia y detalle geométrico minimalista."
 price: 13.99
 category: "Pulseras"
-image: "/products/pulsera-estrella-geometrica-plata.webp"
+image: "../../assets/images/pulsera-estrella-geometrica-plata.webp"
 inStock: true
 material: "Zirconia, Aleación metálica"
 color: "Plata"

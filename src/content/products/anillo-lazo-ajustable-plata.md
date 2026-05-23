@@ -3,7 +3,7 @@ title: "Anillo Lazo Ajustable"
 description: "Anillo ajustable plateado con diseño de lazo minimalista."
 price: 4.99
 category: "Anillos"
-image: "/products/anillo-lazo-ajustable-plata.webp"
+image: "../../assets/images/anillo-lazo-ajustable-plata.webp"
 inStock: true
 material: "PVD Plateado, Acero inoxidable 304"
 color: "Plata"

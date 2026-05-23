@@ -3,7 +3,7 @@ title: "Pulsera Tenis Ondulada"
 description: "Pulsera tenis dorada con zirconias onduladas."
 price: 14.99
 category: "Pulseras"
-image: "/products/pulsera-tenis-ondulada.webp"
+image: "../../assets/images/pulsera-tenis-ondulada.webp"
 inStock: true
 material: "Zirconia, Aleación metálica"
 color: "Dorado"

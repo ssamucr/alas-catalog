@@ -3,7 +3,7 @@ title: "Collar Lazo Minimalista"
 description: "Collar delicado con dije de lazo dorado."
 price: 14.99
 category: "Collares"
-image: "/products/collar-lazo-minimalista.webp"
+image: "../../assets/images/collar-lazo-minimalista.webp"
 inStock: true
 material: "Baño de Oro 18K, Acero inoxidable 316L"
 color: "Dorado"

@@ -3,7 +3,7 @@ title: "Anillo Corazón Asimétrico Texturizado"
 description: "Anillo abstracto dorado con acabado texturizado."
 price: 4.99
 category: "Anillos"
-image: "/products/anillo-corazon-asimetrico-texturizado.webp"
+image: "../../assets/images/anillo-corazon-asimetrico-texturizado.webp"
 inStock: true
 material: "PVD Baño de Oro 18K, Acero inoxidable 304"
 color: "Dorado"

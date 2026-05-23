@@ -1,7 +1,7 @@
 """
 convert_images.py
 Converts JPEG/PNG images from /raw_images to optimized WebP
-and places them in /public/products/.
+and places them in /src/assets/images/.
 
 Usage:
     python scripts/convert_images.py [--quality 75]
@@ -47,7 +47,7 @@ def main() -> None:
 
     project_root = Path(__file__).parent.parent.resolve()
     input_dir = project_root / "raw_images"
-    output_dir = project_root / "public" / "products"
+    output_dir = project_root / "src" / "assets" / "images"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     if not input_dir.exists():

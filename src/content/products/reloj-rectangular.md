@@ -3,7 +3,7 @@ title: "Reloj Rectangular"
 description: "Reloj rectangular dorado de estilo elegante."
 price: 11.99
 category: "Relojes"
-image: "/products/reloj-rectangular.webp"
+image: "../../assets/images/reloj-rectangular.webp"
 inStock: true
 material: "Aleación metálica y cristal mineral"
 color: "Dorado"

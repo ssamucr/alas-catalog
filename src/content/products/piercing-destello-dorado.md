@@ -3,7 +3,7 @@ title: "Piercing Destello Dorado"
 description: "Piercing dorado en forma de rayo con zirconia."
 price: 14.99
 category: "Piercings"
-image: "/products/piercing-destello-dorado.webp"
+image: "../../assets/images/piercing-destello-dorado.webp"
 inStock: true
 material: "Zirconia, Aleación metálica"
 color: "Dorado"

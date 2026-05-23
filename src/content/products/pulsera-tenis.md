@@ -3,7 +3,7 @@ title: "Pulsera Tenis"
 description: "Pulsera tenis clásica con zirconias brillantes."
 price: 14.99
 category: "Pulseras"
-image: "/products/pulsera-tenis.webp"
+image: "../../assets/images/pulsera-tenis.webp"
 inStock: true
 material: "Zirconia, Aleación metálica"
 color: "Dorado"

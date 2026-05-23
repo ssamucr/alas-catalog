@@ -3,7 +3,7 @@ title: "Pulsera Alas de Mariposa"
 description: "Pulsera dorada con mariposas y zirconias."
 price: 14.99
 category: "Pulseras"
-image: "/products/pulsera-alas-de-mariposa.webp"
+image: "../../assets/images/pulsera-alas-de-mariposa.webp"
 inStock: true
 material: "Zirconia, Aleación metálica"
 color: "Dorado"

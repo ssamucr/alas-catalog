@@ -23,7 +23,7 @@ const searchProducts = allProducts.map((p) => ({
   description: p.data.description,
   category: p.data.category,
   price: p.data.price,
-  image: p.data.image,
+  image: p.data.image.src,
   inStock: p.data.inStock,
 }));
 ---

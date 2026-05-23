@@ -3,7 +3,7 @@ title: "Aretes Gota Vintage"
 description: "Aretes largos plateados estilo gota vintage."
 price: 14.99
 category: "Aretes"
-image: "/products/aretes-gota-vintage-plata.webp"
+image: "../../assets/images/aretes-gota-vintage-plata.webp"
 inStock: true
 material: "PVD Plateado, Acero inoxidable 304"
 color: "Plata"

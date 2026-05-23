@@ -3,7 +3,7 @@ title: "Brazalete Nudo"
 description: "Brazalete plateado con detalle de nudo."
 price: 14.99
 category: "Brazaletes"
-image: "/products/brazalete-nudo-dorado.webp"
+image: "../../assets/images/brazalete-nudo-dorado.webp"
 inStock: true
 material: "PVD Baño de Oro 18K, Acero inoxidable 304"
 color: "Dorado"

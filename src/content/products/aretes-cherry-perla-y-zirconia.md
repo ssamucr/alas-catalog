@@ -3,7 +3,7 @@ title: "Aretes Cherry Perla y Zirconia"
 description: "Aretes pequeños de cereza con perla y zirconia."
 price: 12.99
 category: "Aretes"
-image: "/products/aretes-cherry-perla-y-zirconia.webp"
+image: "../../assets/images/aretes-cherry-perla-y-zirconia.webp"
 inStock: true
 material: "Baño de Oro 14K, Cobre, perla y zirconia"
 color: "Dorado"

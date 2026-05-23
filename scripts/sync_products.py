@@ -54,7 +54,7 @@ def build_frontmatter(row: pd.Series, slug: str) -> str:
         f'description: "{str_value(row["description"])}"',
         f'price: {str_value(row["price"])}',
         f'category: "{str_value(row["category"])}"',
-        f'image: "/products/{slug}.webp"',
+        f'image: "../../assets/images/{slug}.webp"',
         f'inStock: {bool_value(row["inStock"])}',
         f'material: "{str_value(row["material"])}"',
         f'color: "{str_value(row["color"])}"',

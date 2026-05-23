@@ -3,7 +3,7 @@ title: "Aretes Flor Mariposa"
 description: "Aretes plateados de mariposa con textura."
 price: 9.99
 category: "Aretes"
-image: "/products/aretes-flor-mariposa-dorado.webp"
+image: "../../assets/images/aretes-flor-mariposa-dorado.webp"
 inStock: true
 material: "PVD Baño de Oro 18K, Acero inoxidable 304"
 color: "Dorado"

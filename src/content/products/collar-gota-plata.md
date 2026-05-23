@@ -3,7 +3,7 @@ title: "Collar Gota"
 description: "Collar plateado tipo snake chain con gotas."
 price: 16.99
 category: "Collares"
-image: "/products/collar-gota-plata.webp"
+image: "../../assets/images/collar-gota-plata.webp"
 inStock: true
 material: "PVD Plateado, Acero inoxidable 304"
 color: "Plata"

@@ -3,7 +3,7 @@ title: "Aretes Gota Vintage"
 description: "Aretes largos en forma de gota vintage dorada."
 price: 14.99
 category: "Aretes"
-image: "/products/aretes-gota-vintage-dorado.webp"
+image: "../../assets/images/aretes-gota-vintage-dorado.webp"
 inStock: true
 material: "PVD Baño de Oro 18K, Acero inoxidable 304"
 color: "Dorado"

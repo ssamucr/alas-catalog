@@ -3,7 +3,7 @@ title: "Piercing Sol y Luna"
 description: "Piercing minimalista dorado en forma de V con zirconias brillantes."
 price: 14.99
 category: "Piercings"
-image: "/products/piercing-sol-y-luna-dorado.webp"
+image: "../../assets/images/piercing-sol-y-luna-dorado.webp"
 inStock: true
 material: "Zirconia, Acero inoxidable 304"
 color: "Dorado"

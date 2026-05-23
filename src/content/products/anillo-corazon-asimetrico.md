@@ -3,7 +3,7 @@ title: "Anillo Corazón Asimétrico"
 description: "Anillo abstracto dorado de acabado liso."
 price: 4.99
 category: "Anillos"
-image: "/products/anillo-corazon-asimetrico.webp"
+image: "../../assets/images/anillo-corazon-asimetrico.webp"
 inStock: true
 material: "PVD Baño de Oro 18K, Acero inoxidable 304"
 color: "Dorado"

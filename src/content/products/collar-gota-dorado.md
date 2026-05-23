@@ -3,7 +3,7 @@ title: "Collar Gota"
 description: "Collar tipo snake chain con extremos de gota."
 price: 16.99
 category: "Collares"
-image: "/products/collar-gota-dorado.webp"
+image: "../../assets/images/collar-gota-dorado.webp"
 inStock: true
 material: "PVD Baño de Oro 18K, Acero inoxidable 304"
 color: "Dorado"

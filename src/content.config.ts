@@ -3,7 +3,7 @@ import { glob } from 'astro/loaders';
 
 const products = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/products' }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     /** Nombre del producto */
     title: z.string(),
     /** Descripción corta visible en tarjeta y página */
@@ -12,8 +12,8 @@ const products = defineCollection({
     price: z.number(),
     /** Categoría del producto */
     category: z.enum(['Anillos', 'Collares', 'Aretes', 'Pulseras', 'Piercings', 'Brazaletes', 'Relojes']),
-    /** URL o path de la imagen principal */
-    image: z.string(),
+    /** Imagen principal optimizada por Astro */
+    image: image(),
     /** Imágenes adicionales para galería */
     gallery: z.array(z.string()).optional(),
     /** Disponibilidad */

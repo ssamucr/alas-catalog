@@ -3,7 +3,7 @@ title: "Anillo Lazo Ajustable"
 description: "Anillo ajustable con delicado diseño de lazo dorado."
 price: 4.99
 category: "Anillos"
-image: "/products/anillo-lazo-ajustable-dorado.webp"
+image: "../../assets/images/anillo-lazo-ajustable-dorado.webp"
 inStock: true
 material: "PVD Baño de Oro 18K, Acero inoxidable 304"
 color: "Dorado"

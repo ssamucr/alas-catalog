@@ -3,7 +3,7 @@ title: "Anillo Corazón"
 description: "Anillo dorado con corazón abstracto texturizado."
 price: 4.99
 category: "Anillos"
-image: "/products/anillo-corazon.webp"
+image: "../../assets/images/anillo-corazon.webp"
 inStock: true
 material: "PVD Baño de Oro 18K, Acero inoxidable 304"
 color: "Dorado"

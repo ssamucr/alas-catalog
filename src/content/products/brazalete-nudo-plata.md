@@ -3,7 +3,7 @@ title: "Brazalete Nudo"
 description: "Brazalete rígido con detalle de nudo."
 price: 14.99
 category: "Brazaletes"
-image: "/products/brazalete-nudo-plata.webp"
+image: "../../assets/images/brazalete-nudo-plata.webp"
 inStock: true
 material: "PVD Plateado, Acero inoxidable 304"
 color: "Plata"

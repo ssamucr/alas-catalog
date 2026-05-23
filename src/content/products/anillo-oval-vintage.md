@@ -3,7 +3,7 @@ title: "Anillo Oval Vintage"
 description: "Anillo dorado con diseño ovalado abstracto."
 price: 4.99
 category: "Anillos"
-image: "/products/anillo-oval-vintage.webp"
+image: "../../assets/images/anillo-oval-vintage.webp"
 inStock: true
 material: "IP Baño de Oro 18K, Acero inoxidable 304"
 color: "Dorado"

@@ -3,7 +3,7 @@ title: "Anillo Princess Promise"
 description: "Anillo de promesa plateado con diseño de corona y zirconias."
 price: 19.99
 category: "Anillos"
-image: "/products/anillo-princess-promise.webp"
+image: "../../assets/images/anillo-princess-promise.webp"
 inStock: true
 material: "Zirconia, Aleación metálica cobre"
 color: "Plata"

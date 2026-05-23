@@ -1,5 +1,6 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/Navbar.astro';
 import SearchModal from '../../components/SearchModal.astro';
@@ -29,7 +30,7 @@ const searchProducts = allProducts.map((p) => ({
   description: p.data.description,
   category: p.data.category,
   price: p.data.price,
-  image: p.data.image,
+  image: p.data.image.src,
   inStock: p.data.inStock,
 }));
 
@@ -55,7 +56,7 @@ const igClipboardMessage = `${contactMessage}\nVer producto: ${Astro.url.href}`;
 <Layout
   title={`${data.title} — Alasfinejewelryy`}
   description={data.description}
-  image={data.image}
+  image={data.image.src}
 >
   <Navbar transition:persist="navbar" />
 
@@ -77,11 +78,12 @@ const igClipboardMessage = `${contactMessage}\nVer producto: ${Astro.url.href}`;
         <!-- ── Imagen ── -->
         <div>
           <div class="aspect-3/4 overflow-hidden bg-ivory-200">
-            <img
+            <Image
               src={data.image}
               alt={data.title}
-              width="800"
-              height="1067"
+              width={800}
+              height={1067}
+              quality={85}
               class="w-full h-full object-cover"
               loading="eager"
               decoding="async"
