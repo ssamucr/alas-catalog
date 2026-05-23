@@ -1,0 +1,181 @@
+---
+/**
+ * ProductGallery
+ * Galería vertical de miniaturas + imagen principal grande.
+ * - Mobile : imagen principal arriba, miniaturas en fila horizontal abajo.
+ * - Desktop: miniaturas en columna a la izquierda, imagen principal a la derecha.
+ * Interactividad: vanilla JS puro, cero dependencias externas.
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  mainImage: ImageMetadata;
+  gallery?: ImageMetadata[];
+  title: string;
+  /** Usado para transition:name (View Transitions entre lista y detalle) */
+  productId: string;
+}
+
+const { mainImage, gallery = [], title, productId } = Astro.props;
+
+// Siempre la principal primero, luego las secundarias
+const allImages: ImageMetadata[] = [mainImage, ...gallery];
+const hasMultiple = allImages.length > 1;
+---
+
+<div class="pg-root" id="pg-root">
+  <!--
+    Layout trick:
+      Mobile  → flex-col-reverse : DOM=[thumbs, main] → visual=[main, thumbs]
+      Desktop → md:flex-row      : visual=[thumbs (izq), main (der)]
+  -->
+  <div class:list={['flex gap-2 md:gap-3', hasMultiple && 'flex-col-reverse md:flex-row']}>
+
+    <!-- ── Columna de miniaturas (sólo si hay más de 1 imagen) ── -->
+    {hasMultiple && (
+      <div
+        class="flex flex-row md:flex-col gap-2 md:w-16 shrink-0 overflow-x-auto md:overflow-visible pb-0.5 md:pb-0"
+        role="list"
+        aria-label="Seleccionar imagen del producto"
+      >
+        {allImages.map((img, i) => (
+          <button
+            type="button"
+            role="listitem"
+            class:list={['pg-thumb', i === 0 && 'pg-active']}
+            data-pg-index={String(i)}
+            aria-label={i === 0 ? 'Imagen principal' : `Vista ${i + 1}`}
+            aria-pressed={i === 0 ? 'true' : 'false'}
+          >
+            <Image
+              src={img}
+              alt=""
+              aria-hidden="true"
+              width={80}
+              height={80}
+              quality={70}
+              loading={i < 2 ? 'eager' : 'lazy'}
+              decoding="async"
+              class="w-full h-full object-cover"
+            />
+          </button>
+        ))}
+      </div>
+    )}
+
+    <!-- ── Panel de imagen principal ── -->
+    <div class="flex-1 relative aspect-3/4 overflow-hidden bg-stone-100">
+      {allImages.map((img, i) => (
+        <div
+          class:list={['pg-panel absolute inset-0', i === 0 && 'pg-active']}
+          data-pg-panel={String(i)}
+          aria-hidden={i === 0 ? 'false' : 'true'}
+        >
+          <Image
+            src={img}
+            alt={i === 0 ? title : `${title} — vista ${i + 1}`}
+            width={800}
+            height={1067}
+            quality={85}
+            loading={i === 0 ? 'eager' : 'lazy'}
+            decoding="async"
+            fetchpriority={i === 0 ? 'high' : 'auto'}
+            class="w-full h-full object-cover"
+            transition:name={i === 0 ? productId : undefined}
+          />
+        </div>
+      ))}
+    </div>
+
+  </div>
+</div>
+
+<style>
+  /* ── Miniaturas ── */
+  .pg-thumb {
+    position: relative;
+    flex-shrink: 0;
+    width: 3.5rem;   /* 56px — mobile */
+    height: 3.5rem;
+    overflow: hidden;
+    outline: 1.5px solid transparent;
+    outline-offset: 2px;
+    cursor: pointer;
+    transition:
+      outline-color 0.2s ease,
+      opacity       0.2s ease,
+      transform     0.15s ease;
+  }
+
+  @media (min-width: 768px) {
+    .pg-thumb {
+      width: 4rem;   /* 64px — desktop */
+      height: 4rem;
+    }
+  }
+
+  .pg-thumb:hover {
+    opacity: 0.78;
+    transform: scale(0.95);
+    outline-color: #a8a29e; /* stone-400 */
+  }
+
+  .pg-thumb:focus-visible {
+    outline-color: #44403c; /* stone-700 */
+    outline-offset: 3px;
+  }
+
+  .pg-thumb.pg-active {
+    outline-color: #44403c; /* stone-700 */
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── Paneles ── */
+  .pg-panel {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.28s ease;
+  }
+
+  .pg-panel.pg-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+</style>
+
+<script>
+  function initGallery(): void {
+    const root = document.getElementById('pg-root');
+    if (!root) return;
+
+    const thumbs = Array.from(root.querySelectorAll<HTMLButtonElement>('.pg-thumb'));
+    const panels = Array.from(root.querySelectorAll<HTMLDivElement>('.pg-panel'));
+
+    if (thumbs.length === 0) return;
+
+    function activate(index: number): void {
+      thumbs.forEach((t, i) => {
+        const on = i === index;
+        t.classList.toggle('pg-active', on);
+        t.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      panels.forEach((p, i) => {
+        const on = i === index;
+        p.classList.toggle('pg-active', on);
+        p.setAttribute('aria-hidden', on ? 'false' : 'true');
+      });
+    }
+
+    thumbs.forEach((thumb, i) => {
+      thumb.addEventListener('click', () => activate(i));
+    });
+  }
+
+  // Carga inicial
+  initGallery();
+
+  // Re-inicializar tras cada navegación con View Transitions
+  document.addEventListener('astro:page-load', initGallery);
+</script>

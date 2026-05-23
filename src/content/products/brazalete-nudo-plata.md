@@ -9,6 +9,8 @@ material: "PVD Plateado, Acero inoxidable 304"
 color: "Plata"
 featured: true
 order: 32
+gallery:
+  - "../../assets/images/brazalete-nudo-plata-2.webp"
 ---
 
 Un símbolo de unión y conexión eterna. Su diseño de nudo representa vínculos fuertes en una pieza elegante y atemporal. 

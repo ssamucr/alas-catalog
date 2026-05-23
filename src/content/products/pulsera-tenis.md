@@ -9,6 +9,8 @@ material: "Zirconia, Aleación metálica"
 color: "Dorado"
 featured: true
 order: 25
+gallery:
+  - "../../assets/images/pulsera-tenis-2.webp"
 ---
 
 Un clásico atemporal que representa elegancia pura. Sus zirconias alineadas crean un brillo constante que nunca pasa desapercibido. 

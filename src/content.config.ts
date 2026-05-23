@@ -14,8 +14,8 @@ const products = defineCollection({
     category: z.enum(['Anillos', 'Collares', 'Aretes', 'Pulseras', 'Piercings', 'Brazaletes', 'Relojes']),
     /** Imagen principal optimizada por Astro */
     image: image(),
-    /** Imágenes adicionales para galería */
-    gallery: z.array(z.string()).optional(),
+    /** Imágenes adicionales para galería — optimizadas por Astro */
+    gallery: z.array(image()).optional(),
     /** Disponibilidad */
     inStock: z.boolean().default(true),
     /** Material principal */

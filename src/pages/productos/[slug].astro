@@ -1,10 +1,10 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
-import { Image } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/Navbar.astro';
 import SearchModal from '../../components/SearchModal.astro';
 import Footer from '../../components/Footer.astro';
+import ProductGallery from '../../components/ProductGallery.astro';
 
 export async function getStaticPaths() {
   const products = await getCollection('products');
@@ -75,33 +75,13 @@ const igClipboardMessage = `${contactMessage}\nVer producto: ${Astro.url.href}`;
     <div class="max-w-7xl mx-auto px-6 py-10">
       <div class="grid md:grid-cols-2 gap-10 lg:gap-20 items-start">
 
-        <!-- ── Imagen ── -->
-        <div>
-          <div class="aspect-3/4 overflow-hidden bg-ivory-200">
-            <Image
-              src={data.image}
-              alt={data.title}
-              width={800}
-              height={1067}
-              quality={85}
-              class="w-full h-full object-cover"
-              loading="eager"
-              decoding="async"
-              fetchpriority="high"
-              transition:name={product.id}
-            />
-          </div>
-          <!-- Galería adicional (si existe) -->
-          {data.gallery && data.gallery.length > 0 && (
-            <div class="grid grid-cols-3 gap-2 mt-2">
-              {data.gallery.map((img) => (
-                <div class="aspect-square overflow-hidden bg-ivory-200">
-                  <img src={img} alt={data.title} loading="lazy" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 cursor-pointer" />
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        <!-- ── Galería ── -->
+        <ProductGallery
+          mainImage={data.image}
+          gallery={data.gallery}
+          title={data.title}
+          productId={product.id}
+        />
 
         <!-- ── Detalles ── -->
         <div class="animate-fade-up md:pt-4" style="animation-delay:100ms">

@@ -9,6 +9,8 @@ material: "Zirconia, Aleación metálica"
 color: "Dorado"
 featured: true
 order: 22
+gallery:
+  - "../../assets/images/pulsera-tenis-ondulada-2.webp"
 ---
 
 Una pieza clásica reinventada con un diseño fluido que abraza la muñeca con brillo continuo. Sus zirconias crean un efecto ondulado elegante y sofisticado. 

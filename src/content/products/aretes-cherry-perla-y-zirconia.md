@@ -9,6 +9,8 @@ material: "Baño de Oro 14K, Cobre, perla y zirconia"
 color: "Dorado"
 featured: true
 order: 23
+gallery:
+  - "../../assets/images/aretes-cherry-perla-y-zirconia-2.webp"
 ---
 
 Un diseño dulce y sofisticado inspirado en la naturaleza. La combinación de perla y zirconia crea un contraste elegante entre suavidad y brillo. 

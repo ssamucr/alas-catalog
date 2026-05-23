@@ -3,6 +3,8 @@ excel_to_md.py
 Reads products.xlsx and generates one .md file per row in the "products" sheet.
 """
 
+from __future__ import annotations
+
 import re
 import unicodedata
 from collections import Counter
@@ -46,7 +48,22 @@ def str_value(value) -> str:
     return str(value).strip()
 
 
-def build_frontmatter(row: pd.Series, slug: str) -> str:
+def find_gallery_images(slug: str, images_dir: Path) -> list[str]:
+    """Return sorted list of gallery image paths (slug-2, slug-3 …) that exist as WebP.
+
+    Only matches files named exactly {slug}-{integer}.webp to avoid
+    picking up other products that share a common prefix (e.g. pulsera-tenis
+    must not match pulsera-tenis-ondulada-2.webp).
+    """
+    numeric_suffix = re.compile(rf"^{re.escape(slug)}-\d+\.webp$")
+    matches = sorted(
+        f for f in images_dir.glob(f"{slug}-*.webp")
+        if numeric_suffix.match(f.name)
+    )
+    return [f"../../assets/images/{f.name}" for f in matches]
+
+
+def build_frontmatter(row: pd.Series, slug: str, images_dir: Path) -> str:
     """Build the YAML frontmatter block from a DataFrame row."""
     lines = [
         "---",
@@ -60,14 +77,21 @@ def build_frontmatter(row: pd.Series, slug: str) -> str:
         f'color: "{str_value(row["color"])}"',
         f'featured: {bool_value(row["featured"])}',
         f'order: {str_value(row["order"])}',
-        "---",
     ]
+
+    gallery = find_gallery_images(slug, images_dir)
+    if gallery:
+        lines.append("gallery:")
+        for path in gallery:
+            lines.append(f'  - "{path}"')
+
+    lines.append("---")
     return "\n".join(lines)
 
 
-def build_md_content(row: pd.Series, slug: str) -> str:
+def build_md_content(row: pd.Series, slug: str, images_dir: Path) -> str:
     """Combine frontmatter + body into a complete Markdown document."""
-    frontmatter = build_frontmatter(row, slug)
+    frontmatter = build_frontmatter(row, slug, images_dir)
     body = "" if pd.isna(row["body"]) else str(row["body"])
     # Interpret literal \n sequences as real newlines (preserve * as-is)
     body = body.replace("\\n", "\n")
@@ -83,6 +107,7 @@ def main() -> None:
     project_root = Path(__file__).parent.parent.resolve()
     excel_path = project_root / "data" / "products.xlsx"
     output_dir = project_root / "src" / "content" / "products"
+    images_dir = project_root / "src" / "assets" / "images"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     if not excel_path.exists():
@@ -136,7 +161,7 @@ def main() -> None:
                 slug = f"{slug}-{color_slug}"
 
         filename = output_dir / f"{slug}.md"
-        content = build_md_content(row, slug)
+        content = build_md_content(row, slug, images_dir)
 
         filename.write_text(content, encoding="utf-8")
         print(f"  [OK]   {filename.name}")

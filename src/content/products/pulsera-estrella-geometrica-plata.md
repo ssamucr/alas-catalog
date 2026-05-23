@@ -9,6 +9,8 @@ material: "Zirconia, Aleación metálica"
 color: "Plata"
 featured: true
 order: 19
+gallery:
+  - "../../assets/images/pulsera-estrella-geometrica-plata-2.webp"
 ---
 
 La Pulsera Estrella Geométrica combina delicadeza y modernidad en un diseño de doble cadena que simboliza equilibrio y luz. Su estrella con zirconia aporta un brillo sutil que acompaña cada movimiento con elegancia. 

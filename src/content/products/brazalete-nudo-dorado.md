@@ -9,6 +9,8 @@ material: "PVD Baño de Oro 18K, Acero inoxidable 304"
 color: "Dorado"
 featured: true
 order: 33
+gallery:
+  - "../../assets/images/brazalete-nudo-dorado-2.webp"
 ---
 
 Minimalista y simbólico, este brazalete representa equilibrio y conexión en un diseño limpio y moderno. 

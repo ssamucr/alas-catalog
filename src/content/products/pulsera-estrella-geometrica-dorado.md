@@ -9,6 +9,8 @@ material: "Zirconia, Aleación metálica"
 color: "Dorado"
 featured: true
 order: 18
+gallery:
+  - "../../assets/images/pulsera-estrella-geometrica-dorado-2.webp"
 ---
 
 Una pulsera de doble cadena que fusiona geometría y brillo en una pieza delicada y femenina. La estrella con zirconia dorada representa luz y guía, creando un detalle sutil pero sofisticado. 
