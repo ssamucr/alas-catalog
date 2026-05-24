@@ -73,31 +73,46 @@
 </header>
 
 <script>
-  const trigger = document.getElementById('mobile-menu-trigger');
-  const menu    = document.getElementById('mobile-menu');
-  const iconMenu  = document.getElementById('icon-menu');
-  const iconClose = document.getElementById('icon-close');
-
-  let open = false;
-
-  trigger?.addEventListener('click', () => {
-    open = !open;
-    menu?.classList.toggle('hidden', !open);
-    iconMenu?.classList.toggle('hidden', open);
-    iconClose?.classList.toggle('hidden', !open);
-    trigger.setAttribute('aria-expanded', String(open));
-  });
-
-  // Sombra sutil al hacer scroll
+  // Sombra sutil al hacer scroll (scope de módulo: se registra una vez, no depende del DOM persistido)
   const navbar = document.getElementById('main-navbar');
   window.addEventListener('scroll', () => {
     navbar?.classList.toggle('shadow-sm', window.scrollY > 40);
   }, { passive: true });
 
-  // Abrir modal de búsqueda — se re-enlaza en cada navegación con AbortController
+  // Menú móvil + búsqueda — se re-enlaza en cada navegación con AbortController
   // para que funcione correctamente con transition:persist + ClientRouter.
+  // Sin esto, el módulo ES solo ejecuta una vez y las referencias al DOM quedan
+  // huérfanas si transition:persist reconcilia el elemento en una dirección distinta,
+  // o el estado `open` queda desincronizado del estado visual tras navegar.
+  let menuAbort: AbortController | null = null;
   let triggerAbort: AbortController | null = null;
+
   document.addEventListener('astro:page-load', () => {
+    // ── Menú móvil ──────────────────────────────────────────
+    menuAbort?.abort();
+    menuAbort = new AbortController();
+
+    const trigger   = document.getElementById('mobile-menu-trigger');
+    const menu      = document.getElementById('mobile-menu');
+    const iconMenu  = document.getElementById('icon-menu');
+    const iconClose = document.getElementById('icon-close');
+
+    // Resetear estado visual al entrar en cualquier página
+    let open = false;
+    menu?.classList.add('hidden');
+    iconMenu?.classList.remove('hidden');
+    iconClose?.classList.add('hidden');
+    trigger?.setAttribute('aria-expanded', 'false');
+
+    trigger?.addEventListener('click', () => {
+      open = !open;
+      menu?.classList.toggle('hidden', !open);
+      iconMenu?.classList.toggle('hidden', open);
+      iconClose?.classList.toggle('hidden', !open);
+      trigger.setAttribute('aria-expanded', String(open));
+    }, { signal: menuAbort.signal });
+
+    // ── Modal de búsqueda ────────────────────────────────────
     triggerAbort?.abort();
     triggerAbort = new AbortController();
     document.getElementById('search-trigger')?.addEventListener('click', () => {
