@@ -18,7 +18,7 @@ except ImportError:
 
 
 SUPPORTED_EXTENSIONS = {".jpg", ".jpeg", ".png"}
-DEFAULT_QUALITY = 50 # 80-85 es un buen balance calidad/tamaño para WebP
+DEFAULT_QUALITY = 80  # 80-85 es un buen balance calidad/tamaño para WebP
 
 
 def convert_image(src: Path, dest: Path, quality: int) -> None:

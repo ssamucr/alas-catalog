@@ -9,6 +9,8 @@ material: "PVD Plateado, Acero inoxidable 304"
 color: "Plata"
 featured: true
 order: 2
+gallery:
+  - "../../assets/images/collar-circular-coreano-plata-2.webp"
 ---
 
 Un diseño limpio y delicado que refleja la belleza del minimalismo. Su zirconia central ilumina con un brillo suave y elegante. 

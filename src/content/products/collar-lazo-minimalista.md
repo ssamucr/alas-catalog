@@ -9,6 +9,8 @@ material: "Baño de Oro 18K, Acero inoxidable 316L"
 color: "Dorado"
 featured: true
 order: 17
+gallery:
+  - "../../assets/images/collar-lazo-minimalista-2.webp"
 ---
 
 Un collar delicado que cuelga un lazo como símbolo de unión y sutileza. Su diseño minimalista lo convierte en una pieza versátil que ilumina sin esfuerzo cualquier look. 

@@ -9,6 +9,8 @@ material: "PVD Baño de Oro 18K, Zirconia, Acero inoxidable 304"
 color: "Dorado"
 featured: true
 order: 29
+gallery:
+  - "../../assets/images/collar-cruz-elegante-2.webp"
 ---
 
 Un símbolo de fe reinterpretado con delicadeza moderna. Su cruz con zirconias aporta un brillo sutil y significativo. 
