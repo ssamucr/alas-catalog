@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
 import Hero from '../components/Hero.astro';
@@ -17,14 +18,18 @@ const allProducts = (await getCollection('products')).sort(
 const categories = [...new Set(allProducts.map((p) => p.data.category))];
 
 // Datos serializados para el buscador Fuse.js
-const searchProducts = allProducts.map((p) => ({
-  slug: p.id,
-  title: p.data.title,
-  description: p.data.description,
-  category: p.data.category,
-  price: p.data.price,
-  image: p.data.image.src,
-  inStock: p.data.inStock,
+// Las imágenes se generan como thumbnails de 96×128 px (WebP, q55) para el modal
+const searchProducts = await Promise.all(allProducts.map(async (p) => {
+  const thumb = await getImage({ src: p.data.image, width: 96, height: 128, format: 'webp', quality: 55 });
+  return {
+    slug: p.id,
+    title: p.data.title,
+    description: p.data.description,
+    category: p.data.category,
+    price: p.data.price,
+    image: thumb.src,
+    inStock: p.data.inStock,
+  };
 }));
 ---
 

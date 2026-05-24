@@ -1,5 +1,6 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { getImage } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/Navbar.astro';
 import SearchModal from '../../components/SearchModal.astro';
@@ -24,14 +25,17 @@ const { data }     = product;
 
 // Datos para la búsqueda (disponibles en el SearchModal)
 const allProducts  = await getCollection('products');
-const searchProducts = allProducts.map((p) => ({
-  slug: p.id,
-  title: p.data.title,
-  description: p.data.description,
-  category: p.data.category,
-  price: p.data.price,
-  image: p.data.image.src,
-  inStock: p.data.inStock,
+const searchProducts = await Promise.all(allProducts.map(async (p) => {
+  const thumb = await getImage({ src: p.data.image, width: 96, height: 128, format: 'webp', quality: 55 });
+  return {
+    slug: p.id,
+    title: p.data.title,
+    description: p.data.description,
+    category: p.data.category,
+    price: p.data.price,
+    image: thumb.src,
+    inStock: p.data.inStock,
+  };
 }));
 
 const formattedPrice = new Intl.NumberFormat('es-US', {

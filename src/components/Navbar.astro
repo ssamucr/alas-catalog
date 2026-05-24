@@ -94,12 +94,18 @@
     navbar?.classList.toggle('shadow-sm', window.scrollY > 40);
   }, { passive: true });
 
-  // Abrir modal de búsqueda
-  document.getElementById('search-trigger')?.addEventListener('click', () => {
-    const overlay = document.getElementById('search-overlay');
-    overlay?.classList.remove('hidden');
-    overlay?.classList.add('flex');
-    document.getElementById('search-input')?.focus();
-    document.body.style.overflow = 'hidden';
+  // Abrir modal de búsqueda — se re-enlaza en cada navegación con AbortController
+  // para que funcione correctamente con transition:persist + ClientRouter.
+  let triggerAbort: AbortController | null = null;
+  document.addEventListener('astro:page-load', () => {
+    triggerAbort?.abort();
+    triggerAbort = new AbortController();
+    document.getElementById('search-trigger')?.addEventListener('click', () => {
+      const overlay = document.getElementById('search-overlay');
+      overlay?.classList.remove('hidden');
+      overlay?.classList.add('flex');
+      document.getElementById('search-input')?.focus();
+      document.body.style.overflow = 'hidden';
+    }, { signal: triggerAbort.signal });
   });
 </script>
